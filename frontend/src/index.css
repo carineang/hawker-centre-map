@@ -173,15 +173,6 @@ code {
   border-color: var(--accent-border);
 }
 
-.btn-danger {
-  background: #ef4444;
-  color: white;
-}
-
-.btn-danger:hover {
-  background: #dc2626;
-}
-
 .btn-sm {
   padding: 6px 12px;
   font-size: 12px;

@@ -11,6 +11,14 @@ from .models import (
 
 app = FastAPI(title="Hawker Centre API", description="Singapore Hawker Centre Finder")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Load data
 DATA_PATH = Path(__file__).parent.parent.parent / "data" / "hawker_centres.json"
 
@@ -43,7 +51,6 @@ async def root():
 async def get_hawkers(
     region: Optional[str] = Query(None, description="Filter by region"),
     search: Optional[str] = Query(None, description="Search by name"),
-    min_stalls: Optional[int] = Query(None, description="Minimum number of stalls")
 ):
     results = hawker_centres.copy()
     
@@ -56,9 +63,6 @@ async def get_hawkers(
     
     if search:
         results = [h for h in results if search.lower() in h.name.lower()]
-    
-    if min_stalls:
-        results = [h for h in results if h.total_stalls >= min_stalls]
     
     return [h.to_dict() for h in results]
 

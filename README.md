@@ -88,6 +88,9 @@ pip install --upgrade fastapi starlette
 
 # To start
 uvicorn app.main:app --reload
+
+# To stop
+Ctrl + c
 ```
 
 #### 3. Frontend Setup (on another terminal)
@@ -99,6 +102,9 @@ npm install
 
 # To start
 npm run dev
+
+# To stop
+Ctrl + c
 ```
 
 ### Note:
@@ -127,6 +133,9 @@ py -m pytest tests/test_models.py -v
 
 ```
 cd frontend
+
+# Install test dependencies
+npm install --save-dev vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
 
 # Run all tests
 npm run test:run

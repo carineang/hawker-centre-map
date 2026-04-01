@@ -2,12 +2,24 @@ import { useState, useEffect, useRef } from 'react';
 import HawkerMap from './components/HawkerMap';
 import { api } from './services/api';
 
+/**
+ * Main App component for Singapore Hawker Centre Map.
+ *
+ * Handles:
+ * - Fetching hawker centres from API
+ * - Search and region filter
+ * - Debounced search input
+ * - Responsive layout adjustments
+ * - Displaying region stats and map markers
+ *
+ * @component
+ */
 function App() {
   const [hawkers, setHawkers] = useState([]);
   const [filteredHawkers, setFilteredHawkers] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState('');
   const [regionStats, setRegionStats] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [setIsLoading] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,14 +29,18 @@ function App() {
   // Debounce timer
   const debounceTimerRef = useRef(null);
   
-  // Track window resize for responsive adjustments
+  /**
+   * Update windowWidth on resize for responsive adjustments
+   */
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  // Debounce search term: wait 500ms after user stops typing
+  /**
+   * Debounce searchTerm: update debouncedSearchTerm 500ms after user stops typing
+   */
   useEffect(() => {
     // Clear previous timer
     if (debounceTimerRef.current) {
@@ -43,11 +59,17 @@ function App() {
     };
   }, [searchTerm]);
   
+  /**
+   * Load hawkers and region statistics on initial mount
+   */
   useEffect(() => {
     loadHawkers();
     loadRegionStats();
   }, []);
   
+  /**
+   * Filter hawkers whenever search term or selected region changes
+   */
   useEffect(() => {
     let filtered = hawkers;
     
@@ -64,6 +86,9 @@ function App() {
     setFilteredHawkers(filtered);
   }, [debouncedSearchTerm, selectedRegion, hawkers]);
   
+  /**
+   * Fetch all hawkers from API
+   */
   const loadHawkers = async () => {
     try {
       const data = await api.getHawkers();
@@ -76,6 +101,9 @@ function App() {
     }
   };
   
+  /**
+   * Fetch region statistics from API
+   */
   const loadRegionStats = async () => {
     try {
       const stats = await api.getRegionStats();
@@ -84,7 +112,10 @@ function App() {
       console.error('Failed to load region stats:', error);
     }
   };
-  
+
+  /**
+   * Reset search and region filters
+   */
   const handleResetFilters = () => {
     setSearchTerm('');
     setDebouncedSearchTerm('');
@@ -92,16 +123,6 @@ function App() {
   };
   
   const isMobile = windowWidth < 768;
-  
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-        <div className="text-center">
-          <div className="text-lg">Loading hawker centres...</div>
-        </div>
-      </div>
-    );
-  }
   
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>

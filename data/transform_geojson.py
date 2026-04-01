@@ -1,7 +1,32 @@
+"""
+GeoJSON to JSON Transformer for Singapore Hawker Centres
+
+This script processes a GeoJSON file containing hawker centre data and
+converts it into a clean, structured JSON format suitable for APIs.
+
+Features:
+- Extracts relevant properties (name, address, coordinates, etc.)
+- Infers region based on postal code
+- Cleans and formats address fields
+- Outputs a simplified JSON dataset
+
+Usage:
+    python script.py
+"""
+
 import json
 
 def assign_region(postal_code):
-    """Assign Singapore region based on postal code prefix."""
+    """
+    Determine the Singapore region based on the postal code prefix.
+
+    Args:
+        postal_code (str): The postal code of the location.
+
+    Returns:
+        str: The region name (e.g., 'Central', 'East'), or 'Unknown'
+             if the postal code is invalid or not mapped.
+    """
     if not postal_code or len(str(postal_code)) < 2:
         return 'Unknown'
     
@@ -31,6 +56,13 @@ def assign_region(postal_code):
         return 'Unknown'
 
 def transform_geojson_to_clean_json():
+    """
+    Transform the default GeoJSON file ('hawker.geojson') into a cleaned JSON file
+    ('hawker_centres.json').
+
+    Returns:
+        List[Dict[str, Any]]: A list of cleaned hawker centre records.
+    """
     # Load GeoJSON file
     with open('hawker.geojson', 'r', encoding='utf-8') as f:
         geojson = json.load(f)
@@ -78,4 +110,7 @@ def transform_geojson_to_clean_json():
     return cleaned_centres
 
 if __name__ == "__main__":
+    """
+    Execute the transformation script when run directly.
+    """
     transform_geojson_to_clean_json()

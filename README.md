@@ -35,10 +35,14 @@ This application provides an intuitive interface for exploring Singapore's hawke
 **Visual Feedback**
 - **Stats Count**: Stats bar shows how many hawker centres are currently displayed
 
+<div style="text-align: center;">
+  <img src="assets/image3.png" width="80%" />
+</div>
+
 ## Architecture
 
 <div style="text-align: center;">
-  <img src="assets/image2.png" width="80%" />
+  <img src="assets/image2.png" width="70%" />
 </div>
 
 ## Tech Stack
